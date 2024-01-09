@@ -23,9 +23,16 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+         |
+          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
+          git config --global user.name "YarinChanan"
+          git config --global user.email "yarinchanan@gmail.com"
 
+          git add -A
+          git commit -m "change version"
+          git push
           # Build Docker Image
-      
+
     - name: Build Docker Image
       run: docker build -t yarinch/hello_world:latest .
 
