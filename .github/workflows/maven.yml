@@ -21,16 +21,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-         |
-          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
-          git config --global user.name "YarinChanan"
-          git config --global user.email "yarinchanan@gmail.com"
+    - name: Artifact versioning
+      run: mvn build-helper:parse-version versions:set \
+          -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} \
+          versions:commit
 
-          git add -A
-          git commit -m "change version"
-          git push
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.MYGITHUB_TOKEN }}
+        branch: master
+
           # Build Docker Image
 
     - name: Build Docker Image
