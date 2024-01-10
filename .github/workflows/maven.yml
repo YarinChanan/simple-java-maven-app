@@ -24,7 +24,7 @@ jobs:
     - name: Artifact versioning
       run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
 
-     - name: Push Patch Version
+    - name: Push Patch Version
       run: |
         git config --global user.email "yarinchanan@gmail.com"
         git config --global user.name "YarinChanan"
