@@ -34,7 +34,7 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        echo DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         docker build -t yarinch/hello_world:${DOCKER_VERSION} -t yarinch/hello_world:latest .
 
       # Login to Docker registry
