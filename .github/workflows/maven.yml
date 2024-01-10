@@ -24,13 +24,15 @@ jobs:
     - name: Artifact versioning
       run: mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
 
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.MYGITHUB_TOKEN }}
-        branch: master
+     - name: Push Patch Version
+      run: |
+        git config --global user.email "yarinchanan@gmail.com"
+        git config --global user.name "YarinChanan"
+        git add pom.xml
+        git commit -m "Update version in pom.xml"
+        git push origin master
 
-          # Build Docker Image
+     # Build Docker Image
 
     - name: Build Docker Image
       run: docker build -t yarinch/hello_world:latest .
