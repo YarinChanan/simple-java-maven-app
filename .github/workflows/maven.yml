@@ -33,8 +33,9 @@ jobs:
      # Build Docker Image
 
     - name: Build Docker Image
-      run: ehco DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-           docker build -t yarinch/hello_world:${DOCKER_VERSION} -t yarinch/hello_world:${DOCKER_VERSION} .
+      run: |
+        ehco DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        docker build -t yarinch/hello_world:${DOCKER_VERSION} -t yarinch/hello_world:latest .
 
       # Login to Docker registry
     - name: Login to Docker Registry
@@ -42,4 +43,6 @@ jobs:
 
       # Push Docker Image (if Dockerfile exists)
     - name: Push Docker Image
-      run: docker push yarinch/hello_world:${DOCKER_VERSION}
+      run: |
+        docker push yarinch/hello_world:${DOCKER_VERSION}
+        docker push yarinch/hello_world:latest
