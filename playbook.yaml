@@ -1,0 +1,37 @@
+---
+- name: Deploy Docker Container
+  hosts: all
+  become: true  # Run tasks with elevated privileges
+
+  tasks:
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    # Task to start Docker service
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes  # Enable Docker service on boot
+
+    # Task to pull Docker image from Docker Hub
+    - name: Pull Docker image
+      command: docker pull yarinch/hello_world:latest
+
+    # Task to run Docker container in detached mode, mapping port 5000 on the host to port 5000 in the container
+    - name: Run Docker container
+      command: docker run -d --rm -p 5000:5000 yarinch/hello_world:latest
+

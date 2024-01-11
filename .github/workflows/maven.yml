@@ -46,3 +46,14 @@ jobs:
         DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         docker push yarinch/hello_world:${DOCKER_VERSION}
         docker push yarinch/hello_world:latest
+
+
+    - name: Deploy image
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: playbook.yml
+        directory: .
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        inventory: |
+          [all]
+          52.87.25.187
