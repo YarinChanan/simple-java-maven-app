@@ -20,6 +20,7 @@
         state: latest
         update_cache: true
 
+
     # Task to start Docker service
     - name: Start Docker service
       service:
