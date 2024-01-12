@@ -51,7 +51,12 @@ jobs:
     - name: Deploy image
       run: |
         DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo -e "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+        echo -e "YOUR_PRIVATE_KEY_CONTENT" > private_key.pem
         chmod 600 private_key.pem
-        ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@100.24.20.181 "sudo docker pull yarinch/hello_world:${DOCKER_VERSION} && sudo docker run --force-recreate -d yarinch/hello_world:${DOCKER_VERSION}"
+
+        # Remove the existing container (if it exists)
+         ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@100.24.20.181 "sudo docker rm -f your_container_name || true"
+
+        # Pull the new Docker image and run the container
+        ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@100.24.20.181 "sudo docker pull yarinch/hello_world:${DOCKER_VERSION} && sudo docker run -d -p 5000:5000 yarinch/hello_world:${DOCKER_VERSION}"
 
