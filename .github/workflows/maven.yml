@@ -50,10 +50,8 @@ jobs:
 
     - name: Deploy image
       run: |
-          - name: Deploy image
-  run: |
-    DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-    echo -e "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-    chmod 600 private_key.pem
-    ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@100.24.20.181 "sudo docker pull yarinch/hello_world:${DOCKER_VERSION} && sudo docker run --force-recreate -d yarinch/hello_world:${DOCKER_VERSION}"
+        DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo -e "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+        chmod 600 private_key.pem
+        ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@100.24.20.181 "sudo docker pull yarinch/hello_world:${DOCKER_VERSION} && sudo docker run --force-recreate -d yarinch/hello_world:${DOCKER_VERSION}"
 
