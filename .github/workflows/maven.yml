@@ -49,11 +49,6 @@ jobs:
 
 
     - name: Deploy image
-      uses: dawidd6/action-ansible-playbook@v2
-      with:
-        playbook: playbook.yml
-        directory: .
-        key: "${{ secrets.SSH_PRIVATE_KEY }}"
-        inventory: |
-          [all]
-          "${{ secrets.EC2_IP }}"
+      run: |
+          DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@100.24.20.181 "sudo docker pull yarinch/hello_world:${DOCKER_VERSION} && sudo docker run --force-recreate -d yarinch/hello_world:${DOCKER_VERSION}"
