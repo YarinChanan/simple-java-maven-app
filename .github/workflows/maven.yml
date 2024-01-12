@@ -51,4 +51,4 @@ jobs:
     - name: Deploy image
       run: |
           DOCKER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY2 }} ubuntu@100.24.20.181 && sudo docker pull yarinch/hello_world:${DOCKER_VERSION} && sudo docker run -d yarinch/hello_world:${DOCKER_VERSION}"
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY2 }} ubuntu@100.24.20.181 "sudo docker pull yarinch/hello_world:${DOCKER_VERSION} && sudo docker run -d yarinch/hello_world:${DOCKER_VERSION}"
