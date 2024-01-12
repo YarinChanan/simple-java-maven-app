@@ -53,7 +53,7 @@ jobs:
       with:
         playbook: playbook.yml
         directory: .
-        key: ${{ secrets.SSH_PRIVATE_KEY2 }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         inventory: |
           [all]
           100.24.20.181
