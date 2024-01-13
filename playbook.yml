@@ -34,5 +34,5 @@
 
     # Task to run Docker container in detached mode, mapping port 5000 on the host to port 5000 in the container
     - name: Run Docker container
-      command: docker run -d --rm -p 5000:5000 yarinch/hello_world:latest
+      command: docker run -d -p 8080:8080 yarinch/hello_world:latest
 
